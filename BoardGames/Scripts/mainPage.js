@@ -1,7 +1,7 @@
-﻿function ludoMouseOver() {
-    $("#background-main-page").addClass("ludoBackground");
+﻿function gameButtonMouseOver(type) {
+    $("#background-main-page").addClass(type.concat("Background"));
 }
 
-function ludoMouseLeave() {
-    $("#background-main-page").removeClass("ludoBackground");
+function gameButtonMouseLeave(type) {
+    $("#background-main-page").removeClass(type.concat("Background"));
 }
