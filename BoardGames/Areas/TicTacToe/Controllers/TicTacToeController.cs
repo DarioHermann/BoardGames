@@ -9,9 +9,9 @@ namespace BoardGames.Areas.TicTacToe.Controllers
     public class TicTacToeController : Controller
     {
         // GET: TicTacToe/TicTacToe
-        public ActionResult Index(Models.TicTacToe model)
+        public ActionResult Index()
         {
-            return View(model);
+            return View();
         }
     }
 }
