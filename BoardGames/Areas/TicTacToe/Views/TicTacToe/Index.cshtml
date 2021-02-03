@@ -1,0 +1,37 @@
+﻿@model BoardGames.Areas.TicTacToe.Models.TicTacToe
+@{
+    ViewBag.Title = "Index";
+}
+@section AddToTTTHead{
+    <link href="@Url.Content("~/Content/tictactoe.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Areas/TicTacToe/Scripts/ticTacToeScript.js")"></script>
+}
+
+<script id="board-template" type="text/x-handlebars-template">
+    {{debug}}
+    <table>
+        <tbody>
+            {{#each Pieces}}
+            <tr>
+                {{#each this}}
+                <td id="pos-{{@@../index}}-{{@@index}}">{{this}}</td>
+                {{/each}}
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</script>
+
+<main class="container text-center">
+    <h1>Tic-Tac-Toe</h1>
+
+    <div class="form-inline">
+        <div class="form-group" id="usernameGroup">
+            <label class="sr-only form-check-label" for="username">Username</label>
+            <input type="text" class="form-control" id="username" placeholder="Username" autofocus />
+        </div>
+        <button type="submit" id="findGame" class="btn-primary">Find Game</button>
+        <p id="status" class="text-info">Please enter your desired username.</p>
+    </div>
+    <div id="board"></div>
+</main>

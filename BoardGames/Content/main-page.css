@@ -3,6 +3,13 @@
     width: 1000px;
 }
 
+.ticTacToeBackground {
+    background-image: url("\\Content\\Images\\TicTacToeBackground.jpg");
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+    background-size: cover;
+    border-radius: 100px 100px 0 0;
+}
+
 .ludoBackground {
     background-image: url("\\Content\\Images\\LudoBackground.jpg");
     mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
