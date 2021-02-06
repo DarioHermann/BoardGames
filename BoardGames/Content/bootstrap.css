@@ -10295,4 +10295,16 @@ a.text-dark:hover, a.text-dark:focus {
     border-color: #dee2e6;
   }
 }
+
+.form-inline .control-label {
+    margin-bottom: 0;
+    vertical-align: middle;
+}
+
+.help-block {
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    color: #737373;
+}
 /*# sourceMappingURL=bootstrap.css.map */

@@ -141,8 +141,14 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\TicTacToe\GameHub.cs" />
+    <Compile Include="Areas\TicTacToe\GameState.cs" />
     <Compile Include="Areas\TicTacToe\Controllers\TicTacToeController.cs" />
+    <Compile Include="Areas\TicTacToe\Models\Board.cs" />
+    <Compile Include="Areas\TicTacToe\Models\Game.cs" />
+    <Compile Include="Areas\TicTacToe\Models\Player.cs" />
     <Compile Include="Areas\TicTacToe\Models\TicTacToe.cs" />
+    <Compile Include="Areas\TicTacToe\Startup.cs" />
     <Compile Include="Areas\TicTacToe\TicTacToeAreaRegistration.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -151,6 +157,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\TicTacToe\Content\tictactoe.css" />
     <Content Include="Areas\TicTacToe\Scripts\ticTacToeScript.js" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />

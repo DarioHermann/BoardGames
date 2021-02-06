@@ -1,36 +1,66 @@
-﻿@{
-    ViewBag.Title = "Index";
-}
-@section AddToTTTHead{
-    <link href="@Url.Content("~/Content/tictactoe.css")" rel="stylesheet" type="text/css" />
-    <script src="@Url.Content("~/Areas/TicTacToe/Scripts/ticTacToeScript.js")"></script>
-}
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-<script id="board-template" type="text/x-handlebars-template">
-    {{debug}}
-    <table>
-        <tbody>
-            {{#each Pieces}}
-            <tr>
-                {{#each this}}
-                <td id="pos-{{@@../index}}-{{@@index}}">{{this}}</td>
+    <title>Tic-Tac-Toe</title>
+
+    <!-- Bootstrap -->
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" href="~/Areas/TicTacToe/Content/tictactoe.css" type="text/css" />
+</head>
+<body>
+    <script id="board-template" type="text/x-handlebars-template">
+        {{debug}}
+        <table>
+            <tbody>
+                {{#each Pieces}}
+                <tr>
+                    {{#each this}}
+                    <td id="pos-{{@@../index}}-{{@@index}}">{{this}}</td>
+                    {{/each}}
+                </tr>
                 {{/each}}
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
-</script>
+            </tbody>
+        </table>
+    </script>
 
-<main class="container text-center">
-    <h1>Tic-Tac-Toe</h1>
+    <main class="container text-center">
+        <h1>Tic-Tac-Toe</h1>
 
-    <div class="form-inline">
-        <div class="form-group" id="usernameGroup">
-            <label class="sr-only form-check-label" for="username">Username</label>
-            <input type="text" class="form-control" id="username" placeholder="Username" autofocus />
+        <div class="form-inline">
+            <div class="form-group" id="usernameGroup">
+                <label class="sr-only control-label" for="username">Username</label>
+                <input type="text" class="form-control" id="username" placeholder="Username" autofocus />
+            </div>
+            <button type="submit" id="findGame" class="btn btn-primary">Find Game</button>
+            <p id="status" class="help-block">Please enter your desired username.</p>
         </div>
-        <button type="submit" id="findGame" class="btn-primary">Find Game</button>
-        <p id="status" class="text-info">Please enter your desired username.</p>
-    </div>
-    <div id="board"></div>
-</main>
+        <div id="board">
+        </div>
+    </main>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/handlebars.js"></script>
+    <!-- SignalR references must be in this order (include jquery first) -->
+    <script src="~/Scripts/jquery.signalR-2.4.1.js"></script>
+    <script src="~/signalr/hubs"></script>
+    
+    <script src="~/Areas/TicTacToe/Scripts/ticTacToeScript.js"></script>
+
+</body>
+</html>

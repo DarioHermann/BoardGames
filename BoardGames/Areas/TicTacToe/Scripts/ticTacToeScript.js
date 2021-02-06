@@ -54,7 +54,7 @@
     };
 
     // A piece has been placed on the board
-    gameHub.client.piecePlace = function(row, col, piece) {
+    gameHub.client.piecePlaced = function(row, col, piece) {
         $("#pos-" + row + "-" + col).html(piece);
     };
 
@@ -116,7 +116,7 @@
 
     // Display whose turn it is
     function displayTurn(playersTurn, opponent) {
-        var turnMessage = "Your are playing against " + opponent.Name + " < br />";
+        var turnMessage = "You are playing against " + opponent.Name + "<br />";
         if (playerId == playersTurn.Id) {
             turnMessage = turnMessage + "Your turn";
         } else {
