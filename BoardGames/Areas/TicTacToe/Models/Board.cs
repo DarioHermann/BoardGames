@@ -2,15 +2,25 @@
 {
     public class Board
     {
+        /// <summary>
+        /// Number of pieces placed on the board
+        /// </summary>
         private int TotalPiecesPlaced { get; set; }
 
-        public string[,] Pieces { get; private set; }
+        /// <summary>
+        /// Pieces on the board
+        /// </summary>
+        public string[,] Pieces { get; }
 
         public Board()
         {
             Pieces = new string[3, 3];
         }
 
+        /// <summary>
+        /// Checks if there's a three in a row (winning play)
+        /// If so, returns a true
+        /// </summary>
         public bool IsThreeInRow
         {
             get
@@ -53,8 +63,17 @@
             }
         }
 
+        /// <summary>
+        /// Checks if there are still spaces left to play
+        /// </summary>
         public bool AreSpacesLeft => TotalPiecesPlaced < Pieces.Length;
 
+        /// <summary>
+        /// Method to place a Piece in the board
+        /// </summary>
+        /// <param name="row">row of piece placed</param>
+        /// <param name="col">column of piece placed</param>
+        /// <param name="piece">piece placed</param>
         public void PlacePiece(int row, int col, string piece)
         {
             Pieces[row, col] = piece;
