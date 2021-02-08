@@ -6,6 +6,12 @@ namespace BoardGames.Areas.TicTacToe
 {
     public class GameHub : Hub
     {
+        /// <summary>
+        /// The starting point for a client looking to join a new game.
+        /// Player either starts a game with a waiting opponent or joins the waiting pool.
+        /// </summary>
+        /// <param name="username">username chosen</param>
+        /// <returns>A Task to track the asynchronous method execution.</returns>
         public async Task FindGame(string username)
         {
             if (GameState.Instance.IsUsernameTaken(username))
@@ -17,6 +23,7 @@ namespace BoardGames.Areas.TicTacToe
             Player joiningPlayer = GameState.Instance.CreatePlayer(username, Context.ConnectionId);
             Clients.Caller.playerJoined(joiningPlayer);
 
+            // Find pending games if any
             Player opponent = GameState.Instance.GetWaitingOpponent();
             if (opponent == null)
             {
@@ -30,6 +37,12 @@ namespace BoardGames.Areas.TicTacToe
             }
         }
 
+        /// <summary>
+        /// Client has requested to place a piece down in the following position.
+        /// </summary>
+        /// <param name="row">The row part of the position.</param>
+        /// <param name="col">The column part of the position.</param>
+        /// <returns>A Task to track the asynchronous method execution.<</returns>
         public void PlacePiece(int row, int col)
         {
             Player playerMakingTurn = GameState.Instance.GetPlayer(Context.ConnectionId);
@@ -70,6 +83,11 @@ namespace BoardGames.Areas.TicTacToe
             }
         }
 
+        /// <summary>
+        /// A player that is leaving should end all games and notify the opponent.
+        /// </summary>
+        /// <param name="stopCalled"></param>
+        /// <returns></returns>
         public override async Task OnDisconnected(bool stopCalled)
         {
             Player leavingPlayer = GameState.Instance.GetPlayer(Context.ConnectionId);

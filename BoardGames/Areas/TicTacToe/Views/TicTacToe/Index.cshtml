@@ -38,13 +38,15 @@
 
     <main class="container text-center">
         <h1>Tic-Tac-Toe</h1>
-
-        <div class="form-inline">
-            <div class="form-group" id="usernameGroup">
+        
+        <div class="row justify-content-center">
+            <div style="margin-right: 5px;" id="usernameGroup">
                 <label class="sr-only control-label" for="username">Username</label>
                 <input type="text" class="form-control" id="username" placeholder="Username" autofocus />
             </div>
             <button type="submit" id="findGame" class="btn btn-primary">Find Game</button>
+        </div>
+        <div style="margin: 5px 0 10px 0;" class="row justify-content-center">
             <p id="status" class="help-block">Please enter your desired username.</p>
         </div>
         <div id="board">

@@ -28,12 +28,26 @@ namespace BoardGames.Areas.TicTacToe.Models
             Player2.Piece = "O";
         }
 
+        /// <summary>
+        /// Returns which player's turn it currently is
+        /// </summary>
         public Player WhoseTurn => IsFirstPlayersTurn ? Player1 : Player2;
 
+        /// <summary>
+        /// Checks if there's a Tie
+        /// </summary>
         public bool IsTie => !Board.AreSpacesLeft && !Board.IsThreeInRow;
 
+        /// <summary>
+        /// Checks if the game is over
+        /// </summary>
         public bool IsOver => IsTie || Board.IsThreeInRow;
 
+        /// <summary>
+        /// Players places a piece of the board
+        /// </summary>
+        /// <param name="row">row of piece placed</param>
+        /// <param name="col">column of piece placed</param>
         public void PlacePiece(int row, int col)
         {
             var piece = IsFirstPlayersTurn ? Player1.Piece : Player2.Piece;
@@ -42,6 +56,12 @@ namespace BoardGames.Areas.TicTacToe.Models
             IsFirstPlayersTurn = !IsFirstPlayersTurn;
         }
 
+        /// <summary>
+        /// Checks if a move is valid
+        /// </summary>
+        /// <param name="row">row of tried move</param>
+        /// <param name="col">column of tired move</param>
+        /// <returns></returns>
         public bool IsValidMove(int row, int col)
         {
             return row < Board.Pieces.GetLength(0) &&

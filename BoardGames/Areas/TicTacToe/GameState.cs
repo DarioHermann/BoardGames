@@ -8,6 +8,11 @@ using Microsoft.AspNet.SignalR.Hubs;
 
 namespace BoardGames.Areas.TicTacToe
 {
+    /// <summary>
+    /// This class can statically persist a collection of players and
+    /// matches that each of the players are playing using the singleton pattern.
+    /// The singleton pattern restricts the instantiation of the class to one object.
+    /// </summary>
     public class GameState
     {
         public IHubConnectionContext<dynamic> Clients { get; set; }
@@ -19,6 +24,9 @@ namespace BoardGames.Areas.TicTacToe
             Groups = context.Groups;
         }
 
+        /// <summary>
+        /// Singleton instance that defers initialization until access time.
+        /// </summary>
         private static readonly Lazy<GameState> instance = new Lazy<GameState>(() => new GameState(GlobalHost.ConnectionManager.GetHubContext<GameHub>()));
 
         private readonly ConcurrentDictionary<string, Player> players = new ConcurrentDictionary<string, Player>(StringComparer.OrdinalIgnoreCase);
