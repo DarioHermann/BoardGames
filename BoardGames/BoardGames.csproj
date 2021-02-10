@@ -164,10 +164,10 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\CheckersBackground.jpg" />
     <Content Include="Content\Images\LudoBackground.jpg" />
     <Content Include="Content\Images\TicTacToeBackground.jpg" />
     <Content Include="Content\main-page.css" />
-    <Content Include="Content\tictactoe.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
