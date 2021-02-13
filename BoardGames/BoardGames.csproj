@@ -141,6 +141,13 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\Checkers\CheckersAreaRegistration.cs" />
+    <Compile Include="Areas\Checkers\Models\Black.cs" />
+    <Compile Include="Areas\Checkers\Models\Board.cs" />
+    <Compile Include="Areas\Checkers\Models\Game.cs" />
+    <Compile Include="Areas\Checkers\Models\IPiece.cs" />
+    <Compile Include="Areas\Checkers\Models\Player.cs" />
+    <Compile Include="Areas\Checkers\Models\White.cs" />
     <Compile Include="Areas\TicTacToe\GameHub.cs" />
     <Compile Include="Areas\TicTacToe\GameState.cs" />
     <Compile Include="Areas\TicTacToe\Controllers\TicTacToeController.cs" />
@@ -207,6 +214,8 @@
     <Content Include="App_Readme\Handlebarsjs_release-notes.md" />
     <Content Include="App_Readme\Handlebarsjs_README.md" />
     <Content Include="App_Readme\Handlebarsjs_LICENSE" />
+    <Content Include="Areas\Checkers\Views\web.config" />
+    <Content Include="Areas\Checkers\Views\Checkers\Index.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -319,6 +328,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Checkers\Controllers\" />
+    <Folder Include="Areas\Checkers\Views\Shared\" />
     <Folder Include="Content\Images\Ludo\" />
     <Folder Include="Models\" />
   </ItemGroup>
