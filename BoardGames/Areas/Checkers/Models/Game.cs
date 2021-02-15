@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BoardGames.Areas.Checkers.Models
 {
@@ -41,7 +42,14 @@ namespace BoardGames.Areas.Checkers.Models
         /// <param name="endCol">end column of piece moved</param>
         public void MovePiece(int row, int col, int endRow, int endCol)
         {
-
+            if (IsFirstPlayersTurn)
+            {
+                Player1.MovePiece(row, col, endRow, endCol);
+            }
+            else
+            {
+                Player2.MovePiece(row, col, endRow, endCol);
+            }
 
             Board.MovePiece(row, col, endRow, endCol);
 
@@ -57,45 +65,51 @@ namespace BoardGames.Areas.Checkers.Models
         /// <param name="endCol">end column of piece moved</param>
         public void EatPiece(int row, int col, int endRow, int endCol)
         {
+            if (IsFirstPlayersTurn)
+            {
+                Player1.MovePiece(row, col, endRow, endCol);
+                Player2.PieceEaten(row > endRow ? row-1 : row+1, col > endCol ? col-1 : col+1);
+            }
+            else
+            {
+                Player2.MovePiece(row, col, endRow, endCol);
+                Player1.PieceEaten(row > endRow ? row - 1 : row + 1, col > endCol ? col - 1 : col + 1);
+            }
+
             Board.EatPiece(row, col, endRow, endCol);
         }
 
-        private IPiece[] SetPlayerPieces(string color)
+        private List<IPiece> SetPlayerPieces(string color)
         {
+            var pieces = new List<IPiece>();
             if (color.Equals("Whites"))
             {
-                var pieces = new White[12];
-                int i = 0;
                 for (int row = 0; row < 3; row++)
                 {
                     for (int col = 0; col < 8; col++)
                     {
                         if (row + col % 2 == 1)
                         {
-                            pieces[i++] = new White(row, col);
+                            pieces.Add(new White(row, col));
                         }
                     }
                 }
-
-                return pieces;
             }
             else
             {
-                var pieces = new Black[12];
-                int i = 0;
                 for (int row = 5; row < 8; row++)
                 {
                     for (int col = 0; col < 8; col++)
                     {
                         if (row + col % 2 == 1)
                         {
-                            pieces[i++] = new Black(row, col);
+                            pieces.Add(new Black(row, col));
                         }
                     }
                 }
-
-                return pieces;
             }
+
+            return pieces;
         }
     }
 }

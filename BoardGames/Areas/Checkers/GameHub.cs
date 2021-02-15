@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
-using BoardGames.Areas.TicTacToe.Models;
+using BoardGames.Areas.Checkers.Models;
 using Microsoft.AspNet.SignalR;
 
-namespace BoardGames.Areas.TicTacToe
+namespace BoardGames.Areas.Checkers
 {
     public class GameHub : Hub
     {
@@ -38,12 +38,14 @@ namespace BoardGames.Areas.TicTacToe
         }
 
         /// <summary>
-        /// Client has requested to place a piece down in the following position.
+        /// Client has requested to move a piece down in the following position.
         /// </summary>
-        /// <param name="row">The row part of the position.</param>
-        /// <param name="col">The column part of the position.</param>
-        /// <returns>A Task to track the asynchronous method execution.<</returns>
-        public void PlacePiece(int row, int col)
+        /// <param name="row">The row part of the current position.</param>
+        /// <param name="col">The column part of the current position.</param>
+        /// <param name="endRow">The row part of the end position.</param>
+        /// <param name="endCol">The column part of the end position.</param>
+        /// <returns>A Task to track the asynchronous method execution.</returns>
+        public void MovePiece(int row, int col, int endRow, int endCol)
         {
             Player playerMakingTurn = GameState.Instance.GetPlayer(Context.ConnectionId);
             Player opponent;
@@ -55,32 +57,32 @@ namespace BoardGames.Areas.TicTacToe
                 return;
             }
 
-            if (!game.IsValidMove(row, col))
-            {
-                Clients.Caller.notValidMove();
-                return;
-            }
+            //if (!game.IsValidMove(row, col))
+            //{
+            //    Clients.Caller.notValidMove();
+            //    return;
+            //}
 
-            game.PlacePiece(row, col);
-            Clients.Group(game.Id).piecePlaced(row, col, playerMakingTurn.Piece);
+            //game.MovePiece(row, col);
+            //Clients.Group(game.Id).piecePlaced(row, col, playerMakingTurn.Piece);
 
-            if (!game.IsOver)
-            {
-                Clients.Group(game.Id).updateTurn(game);
-            }
-            else
-            {
-                if (game.IsTie)
-                {
-                    Clients.Group(game.Id).tieGame();
-                }
-                else
-                {
-                    Clients.Group(game.Id).winner(playerMakingTurn.Name);
-                }
+            //if (!game.IsOver)
+            //{
+            //    Clients.Group(game.Id).updateTurn(game);
+            //}
+            //else
+            //{
+            //    if (game.IsTie)
+            //    {
+            //        Clients.Group(game.Id).tieGame();
+            //    }
+            //    else
+            //    {
+            //        Clients.Group(game.Id).winner(playerMakingTurn.Name);
+            //    }
 
-                GameState.Instance.RemoveGame(game.Id);
-            }
+            //    GameState.Instance.RemoveGame(game.Id);
+            //}
         }
 
         /// <summary>

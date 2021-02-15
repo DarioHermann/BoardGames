@@ -1,0 +1,27 @@
+﻿table tr:nth-child(even) td:nth-child(even)
+table tr:nth-child(odd) td:nth-child(odd){
+    background: #ffdead
+}
+
+table tr:nth-child(even) td:nth-child(odd) 
+table tr:nth-child(odd) td:nth-child(even){
+    background: #8b4513
+}
+
+table {
+    margin: 0 auto;
+    table-layout: fixed;
+}
+
+table td {
+    width: 100px;
+    height: 100px;
+}
+
+table tr {
+    border-bottom: 3px solid black;
+}
+
+table td {
+    border-right: 3px solid black;
+}
