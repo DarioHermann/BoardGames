@@ -20,7 +20,7 @@
     };
 
     // The username is already taken
-    gameHub.client.usernameTaken = function() {
+    gameHub.client.usernameTake = function() {
         $("#status").html("The username is already taken.");
         $("#usernameGroup").addClass("was-validated");
     };

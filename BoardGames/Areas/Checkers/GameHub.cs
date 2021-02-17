@@ -4,7 +4,7 @@ using Microsoft.AspNet.SignalR;
 
 namespace BoardGames.Areas.Checkers
 {
-    public class GameHub : Hub
+    public class GameHubCheckers : Hub
     {
         /// <summary>
         /// The starting point for a client looking to join a new game.

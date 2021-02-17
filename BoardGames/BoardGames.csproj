@@ -151,7 +151,6 @@
     <Compile Include="Areas\Checkers\Models\IPiece.cs" />
     <Compile Include="Areas\Checkers\Models\Player.cs" />
     <Compile Include="Areas\Checkers\Models\White.cs" />
-    <Compile Include="Areas\Checkers\Startup.cs" />
     <Compile Include="Areas\TicTacToe\GameHub.cs" />
     <Compile Include="Areas\TicTacToe\GameState.cs" />
     <Compile Include="Areas\TicTacToe\Controllers\TicTacToeController.cs" />
@@ -334,7 +333,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Checkers\Views\Shared\" />
     <Folder Include="Content\Images\Ludo\" />
     <Folder Include="Models\" />
   </ItemGroup>

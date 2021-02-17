@@ -16,7 +16,7 @@ namespace BoardGames.Areas.TicTacToe
         {
             if (GameState.Instance.IsUsernameTaken(username))
             {
-                Clients.Caller.usernameTaken();
+                Clients.Caller.usernameTakes();
                 return;
             }
 

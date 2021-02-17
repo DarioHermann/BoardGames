@@ -22,7 +22,7 @@ namespace BoardGames.Areas.Checkers
         /// <summary>
         /// Singleton instance that defers initialization until access time.
         /// </summary>
-        private static readonly Lazy<GameState> instance = new Lazy<GameState>(() => new GameState(GlobalHost.ConnectionManager.GetHubContext<GameHub>()));
+        private static readonly Lazy<GameState> instance = new Lazy<GameState>(() => new GameState(GlobalHost.ConnectionManager.GetHubContext<GameHubCheckers>()));
 
         private readonly ConcurrentDictionary<string, Player> players = new ConcurrentDictionary<string, Player>(StringComparer.OrdinalIgnoreCase);
 

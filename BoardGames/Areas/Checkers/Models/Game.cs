@@ -68,7 +68,7 @@ namespace BoardGames.Areas.Checkers.Models
             if (IsFirstPlayersTurn)
             {
                 Player1.MovePiece(row, col, endRow, endCol);
-                Player2.PieceEaten(row > endRow ? row-1 : row+1, col > endCol ? col-1 : col+1);
+                Player2.PieceEaten(row > endRow ? row - 1 : row + 1, col > endCol ? col - 1 : col + 1);
             }
             else
             {

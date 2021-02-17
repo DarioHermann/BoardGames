@@ -1,10 +1,10 @@
-﻿$(function() {
-    //disableInput();
+﻿$(function () {
+    disableInput();
     $("#username").removeAttr("disabled");
 
     var playerId;
 
-    var gameHub = $.connection.gameHub;
+    var gameHub = $.connection.gameHubCheckers;
 
 
     //CLIENT METHODS
@@ -24,7 +24,7 @@
     gameHub.client.opponentLeft = function () {
         $("#status").html("Opponent has left. Game over.");
         endGame();
-    }; 
+    };
 
     // Notify Player that they are in a waiting pool for another opponent
     gameHub.client.waitingList = function () {
@@ -53,11 +53,18 @@
         $("#pos-" + row + "-" + col).html(piece);
     };
 
+    // updates the board
+    gameHub.client.updateTurn = function (game) {
+        var opponent = getOpponent(game);
+        displayTurn(game.WhoseTurn, opponent);
+    };
+
     // Handle the game in case of win
     gameHub.client.winner = function (playerName) {
         $("#status").html("Winner is " + playerName);
         endGame();
     };
+
 
     // CLIENT BEHAVIOURS
     // Call server to find a game if button is clicked
@@ -75,29 +82,24 @@
         return true;
     });
 
-    // updates the board
-    gameHub.client.updateTurn = function (game) {
-        var opponent = getOpponent(game);
-        displayTurn(game.WhoseTurn, opponent);
-    };
 
     function enableInput() {
         $("#username").removeAttr("disabled");
         $("#findGame").removeAttr("disabled");
         $("#username").focus();
-    }
+    };
 
     function disableInput() {
         $("#username").attr("disabled", "disabled");
         $("#findGame").attr("disabled", "disabled");
-    }
+    };
 
     // Game over business logic should disable board button handlers and allow player to join a new game
     function endGame() {
         // Removes click handlers from board positions
         $("td[id^=pos-]").off("click");
         enableInput();
-    }
+    };
 
     // Display whose turn it is
     function displayTurn(playersTurn, opponent) {
@@ -109,7 +111,7 @@
         }
 
         $("#status").html(turnMessage);
-    }
+    };
 
     // Build and display the board
     function buildBoard(board) {
@@ -124,7 +126,7 @@
             var col = parts[2];
             gameHub.server.movePiece(row, col);
         });
-    }
+    };
 
     // Retrieves the opponent player from the game
     function getOpponent(game) {
@@ -133,5 +135,11 @@
         } else {
             return game.Player1;
         }
-    }
-})
+    };
+
+    // Open a connection to the server hub
+    $.connection.hub.logging = true;
+    $.connection.hub.start().done(function () {
+        enableInput();
+    });
+});

@@ -1,11 +1,11 @@
 ﻿table tr:nth-child(even) td:nth-child(even)
-table tr:nth-child(odd) td:nth-child(odd){
-    background: #ffdead
+table tr:nth-child(odd) td:nth-child(odd) {
+    background-color: #ffdead
 }
 
-table tr:nth-child(even) td:nth-child(odd) 
-table tr:nth-child(odd) td:nth-child(even){
-    background: #8b4513
+table tr:nth-child(even) td:nth-child(odd)
+table tr:nth-child(odd) td:nth-child(even) {
+    background-color: #8b4513
 }
 
 table {
@@ -19,9 +19,17 @@ table td {
 }
 
 table tr {
+    border-top: 3px solid black;
+}
+
+table tr:last-child {
     border-bottom: 3px solid black;
 }
 
 table td {
+    border-left: 3px solid black;
+}
+
+table td:last-child {
     border-right: 3px solid black;
 }
