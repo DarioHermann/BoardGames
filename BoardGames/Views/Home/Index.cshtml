@@ -15,7 +15,7 @@
     <div class="row justify-content-center">
         <div class="col-2">
             <button type="button" class="btn btn-outline-secondary" id="tictactoe-btn" onclick="location.href='@Url.Action("Index", "TicTacToe", new { area = "TicTacToe" })'" onmouseover="gameButtonMouseOver('ticTacToe')" onmouseleave="gameButtonMouseLeave('ticTacToe')">Tic-Tac-Toe</button>
-            <button type="button" class="btn btn-outline-secondary" id="checkers-btn" onmouseover="gameButtonMouseOver('checkers')" onmouseleave="gameButtonMouseLeave('checkers')">Checkers</button>
+            <button type="button" class="btn btn-outline-secondary" id="checkers-btn" onclick="location.href='@Url.Action("Index", "Checkers", new { area = "Checkers" })'" onmouseover="gameButtonMouseOver('checkers')" onmouseleave="gameButtonMouseLeave('checkers')">Checkers</button>
             <button type="button" class="btn btn-outline-secondary" id="ludo-btn" onmouseover="gameButtonMouseOver('ludo')" onmouseleave="gameButtonMouseLeave('ludo')">Ludo</button>
         </div>
     </div>

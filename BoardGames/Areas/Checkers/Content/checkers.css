@@ -1,0 +1,39 @@
+﻿tr:nth-child(even) td:nth-child(even),
+tr:nth-child(odd) td:nth-child(odd) {
+    background-color: #ffdead
+}
+
+tr:nth-child(even) td:nth-child(odd),
+tr:nth-child(odd) td:nth-child(even) {
+    background-color: #8b4513
+}
+
+table {
+    margin: 0 auto;
+    table-layout: fixed;
+}
+
+table td {
+    width: 100px;
+    height: 100px;
+}
+
+table tr {
+    border-top: 3px solid black;
+}
+
+table tr:last-child {
+    border-bottom: 3px solid black;
+}
+
+table td {
+    border-left: 3px solid black;
+}
+
+table td:last-child {
+    border-right: 3px solid black;
+}
+
+.checkersPieceSelected {
+    color: red;
+}
