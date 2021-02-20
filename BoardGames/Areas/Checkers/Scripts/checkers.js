@@ -48,6 +48,19 @@
         $("#status").html("Please choose another location.");
     };
 
+    // Handles the case where the player tried to use and invalid piece
+    gameHub.client.notValidPiece = function () {
+        $("#status").html("Please choose another Piece, that piece is not yours.");
+    };
+
+    gameHub.client.selectPiece = function(row, col) {
+        $("#pos-" + row + "-" + col).addClass("checkersPieceSelected");
+    }
+
+    gameHub.client.deselectPiece = function (row, col) {
+        $("#pos-" + row + "-" + col).removeClass("checkersPieceSelected");
+    }
+
     // A piece has been placed on the board
     gameHub.client.pieceMoved = function (row, col, piece) {
         $("#pos-" + row + "-" + col).html(piece);
@@ -124,7 +137,7 @@
             var parts = id.split("-"); // [pos, 0, 0]
             var row = parts[1];
             var col = parts[2];
-            gameHub.server.movePiece(row, col);
+            gameHub.server.selectPiece(row, col);
         });
     };
 

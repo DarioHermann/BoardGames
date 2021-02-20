@@ -6,6 +6,10 @@ namespace BoardGames.Areas.Checkers
 {
     public class GameHubCheckers : Hub
     {
+        private static bool isPieceSelected = false;
+        private static int rowSelected = -1;
+        private static int colSelected = -1;
+
         /// <summary>
         /// The starting point for a client looking to join a new game.
         /// Player either starts a game with a waiting opponent or joins the waiting pool.
@@ -37,6 +41,43 @@ namespace BoardGames.Areas.Checkers
             }
         }
 
+        public void SelectPiece(int row, int col)
+        {
+            Player playerMakingTurn = GameState.Instance.GetPlayer(Context.ConnectionId);
+            Player opponent;
+            Game game = GameState.Instance.GetGame(playerMakingTurn, out opponent);
+
+            if (game == null || !game.WhoseTurn.Equals(playerMakingTurn))
+            {
+                Clients.Caller.notPlayersTurn();
+                return;
+            }
+
+            if (isPieceSelected)
+            {
+                if (row == rowSelected && col == colSelected)
+                {
+                    isPieceSelected = false;
+                    rowSelected = -1;
+                    colSelected = -1;
+                    Clients.Caller.deselectPiece(row, col);
+                    return;
+                }
+                else
+                {
+                    MovePiece(rowSelected, colSelected, row, col);
+                }
+            }
+
+            isPieceSelected = true;
+            rowSelected = row;
+            colSelected = col;
+            Clients.Caller.selectPiece(row, col);
+            
+
+            //playerMakingTurn.Pieces
+        }
+
         /// <summary>
         /// Client has requested to move a piece down in the following position.
         /// </summary>
@@ -57,11 +98,11 @@ namespace BoardGames.Areas.Checkers
                 return;
             }
 
-            //if (!game.IsValidMove(row, col))
-            //{
-            //    Clients.Caller.notValidMove();
-            //    return;
-            //}
+            if (!game.IsCurrentPlayersPiece(row, col))
+            {
+                Clients.Caller.notValidPiece();
+                return;
+            }
 
             //game.MovePiece(row, col);
             //Clients.Group(game.Id).piecePlaced(row, col, playerMakingTurn.Piece);

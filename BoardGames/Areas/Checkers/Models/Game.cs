@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Web.WebPages;
 
 namespace BoardGames.Areas.Checkers.Models
 {
@@ -23,6 +24,9 @@ namespace BoardGames.Areas.Checkers.Models
 
             Player1.GameId = Id;
             Player2.GameId = Id;
+
+            Player1.Piece = "b";
+            Player2.Piece = "w";
 
             Player1.Pieces = SetPlayerPieces("Blacks");
             Player2.Pieces = SetPlayerPieces("Whites");
@@ -88,7 +92,7 @@ namespace BoardGames.Areas.Checkers.Models
                 {
                     for (int col = 0; col < 8; col++)
                     {
-                        if (row + col % 2 == 1)
+                        if ((row + col) % 2 == 1)
                         {
                             pieces.Add(new White(row, col));
                         }
@@ -101,7 +105,7 @@ namespace BoardGames.Areas.Checkers.Models
                 {
                     for (int col = 0; col < 8; col++)
                     {
-                        if (row + col % 2 == 1)
+                        if ((row + col) % 2 == 1)
                         {
                             pieces.Add(new Black(row, col));
                         }
@@ -110,6 +114,89 @@ namespace BoardGames.Areas.Checkers.Models
             }
 
             return pieces;
+        }
+
+        /// <summary>
+        /// Checks valid moves for the piece in a certain position
+        /// </summary>
+        /// <param name="row">row of piece to check</param>
+        /// <param name="col">column of piece to check</param>
+        /// <returns>List of valid moves for a certain piece</returns>
+        public List<int[]> ShowValidMovesForPiece(int row, int col)
+        {
+            var moves = new List<int[]>();
+
+            string piece = Board.Pieces[row, col];
+
+            switch (piece)
+            {
+                case "b":
+                    moves.Add(new []{1, -1});
+                    moves.Add(new []{1, 1});
+                    break;
+                case "B":
+                case "W":
+                    moves.Add(new[] {-1, -1});
+                    moves.Add(new[] {-1, 1});
+                    moves.Add(new[] {1, -1});
+                    moves.Add(new[] {1, 1});
+                    break;
+                case "w":
+                    moves.Add(new[] {-1, -1 });
+                    moves.Add(new[] {-1, 1 });
+                    break;
+            }
+
+            var validMoves = new List<int[]>();
+
+            foreach (var move in moves)
+            {
+                if ((row + move[0] < 0 || row + move[0] > 8) || (col + move[1] < 0 || col + move[1] > 0))
+                {
+                    continue;
+                }
+
+                string otherPiece = Board.Pieces[row + move[0], row + move[1]].ToLower();
+
+                if (otherPiece.IsEmpty())
+                {
+                    validMoves.Add(new []{row+move[0], col+move[1]});
+                }
+                else if (otherPiece.Equals(piece.ToLower()))
+                {
+                    // Do Nothing
+                }
+                else
+                {
+                    if ((row + move[0] * 2 < 0 || row + move[0] * 2 > 8) ||
+                        (col + move[1] * 2 < 0 || col + move[1] * 2 > 0))
+                    {
+                        continue;
+                    }
+
+                    var thirdPiece = Board.Pieces[row + move[0] * 2, col + move[1] * 2];
+                    if (thirdPiece.IsEmpty())
+                    {
+                        validMoves.Add(new []{row+move[0], col+move[1]});
+                    }
+                }
+            }
+
+            return validMoves;
+        }
+
+        public bool IsCurrentPlayersPiece(int row, int col)
+        {
+            if(IsFirstPlayersTurn && Board.Pieces[row, col].ToLower().Equals(Player1.Piece))
+            {
+                return true;
+            }
+            if (!IsFirstPlayersTurn && Board.Pieces[row, col].ToLower().Equals(Player2.Piece))
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

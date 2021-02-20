@@ -1,10 +1,10 @@
-﻿table tr:nth-child(even) td:nth-child(even)
-table tr:nth-child(odd) td:nth-child(odd) {
+﻿tr:nth-child(even) td:nth-child(even),
+tr:nth-child(odd) td:nth-child(odd) {
     background-color: #ffdead
 }
 
-table tr:nth-child(even) td:nth-child(odd)
-table tr:nth-child(odd) td:nth-child(even) {
+tr:nth-child(even) td:nth-child(odd),
+tr:nth-child(odd) td:nth-child(even) {
     background-color: #8b4513
 }
 
@@ -32,4 +32,8 @@ table td {
 
 table td:last-child {
     border-right: 3px solid black;
+}
+
+.checkersPieceSelected {
+    color: red;
 }
