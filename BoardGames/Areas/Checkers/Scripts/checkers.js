@@ -53,12 +53,21 @@
         $("#status").html("Please choose another Piece, that piece is not yours.");
     };
 
-    gameHub.client.selectPiece = function(row, col) {
+    gameHub.client.selectPiece = function(row, col, validMoves) {
         $("#pos-" + row + "-" + col).addClass("checkersPieceSelected");
+
+        
+        for (var i = 0; i < validMoves.length; i++) {
+            $("#pos-" + validMoves[i][0] + "-" + validMoves[i][1]).addClass("validMove");
+        }
     }
 
-    gameHub.client.deselectPiece = function (row, col) {
+    gameHub.client.deselectPiece = function (row, col, validMoves) {
         $("#pos-" + row + "-" + col).removeClass("checkersPieceSelected");
+
+        for (var i = 0; i < validMoves.length; i++) {
+            $("#pos-" + validMoves[i][0] + "-" + validMoves[i][1]).removeClass("validMove");
+        }
     }
 
     // A piece has been placed on the board

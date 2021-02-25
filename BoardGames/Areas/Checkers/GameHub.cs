@@ -9,6 +9,7 @@ namespace BoardGames.Areas.Checkers
         private static bool isPieceSelected = false;
         private static int rowSelected = -1;
         private static int colSelected = -1;
+        private static int[,] validMoves = null;
 
         /// <summary>
         /// The starting point for a client looking to join a new game.
@@ -57,22 +58,44 @@ namespace BoardGames.Areas.Checkers
             {
                 if (row == rowSelected && col == colSelected)
                 {
+                    Clients.Caller.deselectPiece(row, col, validMoves);
+
                     isPieceSelected = false;
                     rowSelected = -1;
                     colSelected = -1;
-                    Clients.Caller.deselectPiece(row, col);
+                    validMoves = null;
+
                     return;
                 }
-                else
+
+                for (int i = 0; i < validMoves.Rank; i++)
                 {
-                    MovePiece(rowSelected, colSelected, row, col);
+                    if (row == validMoves[i, 0] && col == validMoves[i, 1])
+                    {
+                        Clients.Caller.deselectPiece(row, col, validMoves);
+
+                        MovePiece(rowSelected, colSelected, row, col);
+
+                        isPieceSelected = false;
+                        rowSelected = -1;
+                        colSelected = -1;
+                        validMoves = null;
+                        return;
+                    }
                 }
+            }
+
+            if (!game.IsCurrentPlayersPiece(row, col))
+            {
+                Clients.Caller.notValidPiece();
+                return;
             }
 
             isPieceSelected = true;
             rowSelected = row;
             colSelected = col;
-            Clients.Caller.selectPiece(row, col);
+            validMoves = game.ShowValidMovesForPiece(row, col);
+            Clients.Caller.selectPiece(row, col, validMoves);
             
 
             //playerMakingTurn.Pieces

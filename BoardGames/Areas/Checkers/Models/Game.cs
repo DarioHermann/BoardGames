@@ -122,7 +122,7 @@ namespace BoardGames.Areas.Checkers.Models
         /// <param name="row">row of piece to check</param>
         /// <param name="col">column of piece to check</param>
         /// <returns>List of valid moves for a certain piece</returns>
-        public List<int[]> ShowValidMovesForPiece(int row, int col)
+        public int[,] ShowValidMovesForPiece(int row, int col)
         {
             var moves = new List<int[]>();
 
@@ -151,12 +151,12 @@ namespace BoardGames.Areas.Checkers.Models
 
             foreach (var move in moves)
             {
-                if ((row + move[0] < 0 || row + move[0] > 8) || (col + move[1] < 0 || col + move[1] > 0))
+                if ((row + move[0] < 0 || row + move[0] > 7) || (col + move[1] < 0 || col + move[1] > 7))
                 {
                     continue;
                 }
 
-                string otherPiece = Board.Pieces[row + move[0], row + move[1]].ToLower();
+                string otherPiece = Board.Pieces[row + move[0], col + move[1]].ToLower();
 
                 if (otherPiece.IsEmpty())
                 {
@@ -168,8 +168,8 @@ namespace BoardGames.Areas.Checkers.Models
                 }
                 else
                 {
-                    if ((row + move[0] * 2 < 0 || row + move[0] * 2 > 8) ||
-                        (col + move[1] * 2 < 0 || col + move[1] * 2 > 0))
+                    if ((row + move[0] * 2 < 0 || row + move[0] * 2 > 7) ||
+                        (col + move[1] * 2 < 0 || col + move[1] * 2 > 7))
                     {
                         continue;
                     }
@@ -177,12 +177,25 @@ namespace BoardGames.Areas.Checkers.Models
                     var thirdPiece = Board.Pieces[row + move[0] * 2, col + move[1] * 2];
                     if (thirdPiece.IsEmpty())
                     {
-                        validMoves.Add(new []{row+move[0], col+move[1]});
+                        validMoves.Add(new []{row+move[0]*2, col+move[1]*2});
                     }
                 }
             }
 
-            return validMoves;
+            return TransformListIntoMatrix(validMoves);
+        }
+
+        private int[,] TransformListIntoMatrix(List<int[]> list)
+        {
+            var result = new int[list.Count, 2];
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                result[i, 0] = list[i][0];
+                result[i, 1] = list[i][1];
+            }
+
+            return result;
         }
 
         public bool IsCurrentPlayersPiece(int row, int col)

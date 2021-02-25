@@ -1,11 +1,11 @@
 ﻿tr:nth-child(even) td:nth-child(even),
 tr:nth-child(odd) td:nth-child(odd) {
-    background-color: #ffdead
+    background-color: #ffdead;
 }
 
 tr:nth-child(even) td:nth-child(odd),
 tr:nth-child(odd) td:nth-child(even) {
-    background-color: #8b4513
+    background-color: #8b4513;
 }
 
 table {
@@ -36,4 +36,8 @@ table td:last-child {
 
 .checkersPieceSelected {
     color: red;
+}
+
+.validMove {
+    background-color: chartreuse !important;
 }
