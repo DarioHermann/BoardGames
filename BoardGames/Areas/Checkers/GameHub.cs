@@ -121,12 +121,20 @@ namespace BoardGames.Areas.Checkers
                 return;
             }
 
-            if (!game.IsCurrentPlayersPiece(row, col))
+            if (row == endRow + 2 || row == endRow - 2)
             {
-                Clients.Caller.notValidPiece();
-                return;
+                var piece = game.EatPiece(row, col, endRow, endCol);
+                var rowEaten = row > endRow ? row - 1 : row + 1;
+                var colEaten = col > endCol ? col - 1 : col + 1;
+                Clients.Group(game.Id).eatPiece(row, col, rowEaten, colEaten, endRow, endCol, piece);
+            }
+            else
+            {
+                var piece = game.MovePiece(row, col, endRow, endCol);
+                Clients.Group(game.Id).movePiece(row, col, endRow, endCol, piece);
             }
 
+            Clients.Group(game.Id).updateTurn(game);
             //game.MovePiece(row, col);
             //Clients.Group(game.Id).piecePlaced(row, col, playerMakingTurn.Piece);
 

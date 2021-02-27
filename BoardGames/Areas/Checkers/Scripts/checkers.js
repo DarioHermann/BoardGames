@@ -70,9 +70,16 @@
         }
     }
 
-    // A piece has been placed on the board
-    gameHub.client.pieceMoved = function (row, col, piece) {
-        $("#pos-" + row + "-" + col).html(piece);
+    gameHub.client.eatPiece = function(row, col, pieceEatenRow, pieceEatenCol, endRow, endCol, piece) {
+        $("#pos-" + row + "-" + col).html("");
+        $("#pos-" + pieceEatenRow + "-" + pieceEatenCol).html("");
+        $("#pos-" + endRow + "-" + endCol).html(piece);
+    }
+
+    // A piece has been moved on the board
+    gameHub.client.movePiece = function (row, col, endRow, endCol, piece) {
+        $("#pos-" + row + "-" + col).html("");
+        $("#pos-" + endRow + "-" + endCol).html(piece);
     };
 
     // updates the board

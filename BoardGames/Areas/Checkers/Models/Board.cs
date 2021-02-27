@@ -57,18 +57,21 @@
             return pieces;
         }
 
-        public void MovePiece(int startRow, int startCol, int endRow, int endCol)
+        public string MovePiece(int startRow, int startCol, int endRow, int endCol, bool isKing)
         {
-            Pieces[endRow, endCol] = Pieces[startRow, startCol];
+            var piece = isKing ? Pieces[startRow, startCol].ToUpper() : Pieces[startRow, startCol];
+            Pieces[endRow, endCol] = piece;
             Pieces[startRow, startCol] = "";
+
+            return piece;
         }
 
-        public void EatPiece(int row, int col, int endRow, int endCol)
+        public string EatPiece(int row, int col, int endRow, int endCol, bool isKing)
         {
             var enemyRow = row > endRow ? row - 1 : row + 1;
             var enemyCol = col > endCol ? col - 1 : col + 1;
             Pieces[enemyRow, enemyCol] = "";
-            MovePiece(row, col, endRow, endCol);
+            return MovePiece(row, col, endRow, endCol, isKing);
         }
     }
 }

@@ -5,12 +5,14 @@
         private bool _isKing { get; set; }
         private int _row { get; set; }
         private int _column { get; set; }
+        private int _rowForKing { get; }
 
         public Black(int row, int col)
         {
             _isKing = false;
             _row = row;
             _column = col;
+            _rowForKing = row < 3 ? 7 : 0;
         }
 
         public string GetColor()
@@ -37,6 +39,10 @@
         {
             _row = row;
             _column = col;
+            if (row == _rowForKing)
+            {
+                TurnedKing();
+            }
         }
 
         public void TurnedKing()
