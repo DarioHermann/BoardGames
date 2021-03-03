@@ -9,6 +9,7 @@ namespace BoardGames.Areas.Checkers
         private static bool isPieceSelected = false;
         private static int rowSelected = -1;
         private static int colSelected = -1;
+        private static int[,] validMoves = null;
 
         /// <summary>
         /// The starting point for a client looking to join a new game.
@@ -57,22 +58,50 @@ namespace BoardGames.Areas.Checkers
             {
                 if (row == rowSelected && col == colSelected)
                 {
+                    Clients.Caller.deselectPiece(row, col, validMoves);
+
                     isPieceSelected = false;
                     rowSelected = -1;
                     colSelected = -1;
-                    Clients.Caller.deselectPiece(row, col);
+                    validMoves = null;
+
                     return;
                 }
-                else
+
+                for (int i = 0; i < validMoves.GetLength(0); i++)
                 {
-                    MovePiece(rowSelected, colSelected, row, col);
+                    if (row == validMoves[i, 0] && col == validMoves[i, 1])
+                    {
+                        Clients.Caller.deselectPiece(row, col, validMoves);
+
+                        MovePiece(rowSelected, colSelected, row, col);
+
+                        isPieceSelected = false;
+                        rowSelected = -1;
+                        colSelected = -1;
+                        validMoves = null;
+                        return;
+                    }
                 }
+            }
+
+            if (!game.IsCurrentPlayersPiece(row, col))
+            {
+                Clients.Caller.notValidPiece();
+                return;
+            }
+
+            if(!game.CanSelectPiece(row, col))
+            {
+                Clients.Caller.forcedToEat();
+                return;
             }
 
             isPieceSelected = true;
             rowSelected = row;
             colSelected = col;
-            Clients.Caller.selectPiece(row, col);
+            validMoves = game.ShowValidMovesForPiece(row, col);
+            Clients.Caller.selectPiece(row, col, validMoves);
             
 
             //playerMakingTurn.Pieces
@@ -98,12 +127,23 @@ namespace BoardGames.Areas.Checkers
                 return;
             }
 
-            if (!game.IsCurrentPlayersPiece(row, col))
+            if (row == endRow + 2 || row == endRow - 2)
             {
-                Clients.Caller.notValidPiece();
-                return;
+                var piece = game.EatPiece(row, col, endRow, endCol);
+                var rowEaten = row > endRow ? row - 1 : row + 1;
+                var colEaten = col > endCol ? col - 1 : col + 1;
+                Clients.Group(game.Id).eatPiece(row, col, rowEaten, colEaten, endRow, endCol, piece);
+                game.NeedToChangePlayer(endRow, endCol);
+            }
+            else
+            {
+                var piece = game.MovePiece(row, col, endRow, endCol);
+                Clients.Group(game.Id).movePiece(row, col, endRow, endCol, piece);
             }
 
+
+
+            Clients.Group(game.Id).updateTurn(game);
             //game.MovePiece(row, col);
             //Clients.Group(game.Id).piecePlaced(row, col, playerMakingTurn.Piece);
 

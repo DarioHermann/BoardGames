@@ -53,17 +53,38 @@
         $("#status").html("Please choose another Piece, that piece is not yours.");
     };
 
-    gameHub.client.selectPiece = function(row, col) {
+    // Handles the case where the player is forced to eat a piece
+    gameHub.client.forcedToEat = function () {
+        $("#status").html("You're forced to eat another piece.");
+    };
+
+    gameHub.client.selectPiece = function(row, col, validMoves) {
         $("#pos-" + row + "-" + col).addClass("checkersPieceSelected");
+
+        
+        for (var i = 0; i < validMoves.length; i++) {
+            $("#pos-" + validMoves[i][0] + "-" + validMoves[i][1]).addClass("validMove");
+        }
     }
 
-    gameHub.client.deselectPiece = function (row, col) {
+    gameHub.client.deselectPiece = function (row, col, validMoves) {
         $("#pos-" + row + "-" + col).removeClass("checkersPieceSelected");
+
+        for (var i = 0; i < validMoves.length; i++) {
+            $("#pos-" + validMoves[i][0] + "-" + validMoves[i][1]).removeClass("validMove");
+        }
     }
 
-    // A piece has been placed on the board
-    gameHub.client.pieceMoved = function (row, col, piece) {
-        $("#pos-" + row + "-" + col).html(piece);
+    gameHub.client.eatPiece = function(row, col, pieceEatenRow, pieceEatenCol, endRow, endCol, piece) {
+        $("#pos-" + row + "-" + col).html("");
+        $("#pos-" + pieceEatenRow + "-" + pieceEatenCol).html("");
+        $("#pos-" + endRow + "-" + endCol).html(piece);
+    }
+
+    // A piece has been moved on the board
+    gameHub.client.movePiece = function (row, col, endRow, endCol, piece) {
+        $("#pos-" + row + "-" + col).html("");
+        $("#pos-" + endRow + "-" + endCol).html(piece);
     };
 
     // updates the board

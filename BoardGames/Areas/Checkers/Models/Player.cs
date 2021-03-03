@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace BoardGames.Areas.Checkers.Models
 {
@@ -22,16 +23,18 @@ namespace BoardGames.Areas.Checkers.Models
             return string.Format($"(Id={Id}, Name={Name}, GameId={GameId}, Piece={Piece})");
         }
 
-        public void MovePiece(int row, int col, int endRow, int endCol)
+        public bool MovePiece(int row, int col, int endRow, int endCol)
         {
             foreach (var piece in Pieces)
             {
                 if (piece.Row() == row && piece.Col() == col)
                 {
                     piece.Move(endRow, endCol);
-                    break;
+                    return piece.IsKing();
                 }
             }
+
+            throw new Exception();
         }
 
         public void PieceEaten(int row, int col)
@@ -41,6 +44,7 @@ namespace BoardGames.Areas.Checkers.Models
                 if (piece.Row() == row && piece.Col() == col)
                 {
                     Pieces.Remove(piece);
+                    return;
                 }
             }
 
