@@ -53,6 +53,11 @@
         $("#status").html("Please choose another Piece, that piece is not yours.");
     };
 
+    // Handles the case where the player is forced to eat a piece
+    gameHub.client.forcedToEat = function () {
+        $("#status").html("You're forced to eat another piece.");
+    };
+
     gameHub.client.selectPiece = function(row, col, validMoves) {
         $("#pos-" + row + "-" + col).addClass("checkersPieceSelected");
 

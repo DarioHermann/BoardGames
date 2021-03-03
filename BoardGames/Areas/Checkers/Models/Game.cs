@@ -151,6 +151,8 @@ namespace BoardGames.Areas.Checkers.Models
 
             var validMoves = new List<int[]>();
 
+            var forcedToEat = false;
+
             foreach (var move in moves)
             {
                 if ((row + move[0] < 0 || row + move[0] > 7) || (col + move[1] < 0 || col + move[1] > 7))
@@ -160,7 +162,7 @@ namespace BoardGames.Areas.Checkers.Models
 
                 string otherPiece = Board.Pieces[row + move[0], col + move[1]].ToLower();
 
-                if (otherPiece.IsEmpty())
+                if (otherPiece.IsEmpty() && !forcedToEat)
                 {
                     validMoves.Add(new []{row+move[0], col+move[1]});
                 }
@@ -179,6 +181,11 @@ namespace BoardGames.Areas.Checkers.Models
                     var thirdPiece = Board.Pieces[row + move[0] * 2, col + move[1] * 2];
                     if (thirdPiece.IsEmpty())
                     {
+                        if (!forcedToEat)
+                        {
+                            validMoves.Clear();
+                            forcedToEat = true;
+                        }
                         validMoves.Add(new []{row+move[0]*2, col+move[1]*2});
                     }
                 }
@@ -212,6 +219,57 @@ namespace BoardGames.Areas.Checkers.Models
             }
 
             return false;
+        }
+
+        public void NeedToChangePlayer(int row, int col)
+        {
+            var moves = ShowValidMovesForPiece(row, col);
+            
+            for(int i = 0; i < moves.GetLength(0); i++)
+            {
+                if(moves[i, 0] == row + 2 || moves[i, 0] == row - 2)
+                {
+                    return;
+                }
+            }
+
+            IsFirstPlayersTurn = !IsFirstPlayersTurn;
+        }
+
+        public bool CanSelectPiece(int row, int col)
+        {
+            List<IPiece> playerPieces = Player1.Pieces;
+
+            var pieceCanEat = false;
+
+            if (!IsFirstPlayersTurn)
+            {
+                playerPieces = Player2.Pieces;
+            }
+
+            foreach(var piece in playerPieces)
+            {
+                var moves = ShowValidMovesForPiece(piece.Row(), piece.Col());
+
+                for(int i = 0; i < moves.GetLength(0); i++)
+                {
+                    if(moves[i, 0] == piece.Row() + 2 || moves[i, 0] == piece.Row() - 2)
+                    {
+                        pieceCanEat = true;
+                        if(row == piece.Row() && col == piece.Col())
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            if (pieceCanEat)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

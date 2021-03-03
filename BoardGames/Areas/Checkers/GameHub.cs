@@ -68,7 +68,7 @@ namespace BoardGames.Areas.Checkers
                     return;
                 }
 
-                for (int i = 0; i < validMoves.Rank; i++)
+                for (int i = 0; i < validMoves.GetLength(0); i++)
                 {
                     if (row == validMoves[i, 0] && col == validMoves[i, 1])
                     {
@@ -88,6 +88,12 @@ namespace BoardGames.Areas.Checkers
             if (!game.IsCurrentPlayersPiece(row, col))
             {
                 Clients.Caller.notValidPiece();
+                return;
+            }
+
+            if(!game.CanSelectPiece(row, col))
+            {
+                Clients.Caller.forcedToEat();
                 return;
             }
 
@@ -127,12 +133,15 @@ namespace BoardGames.Areas.Checkers
                 var rowEaten = row > endRow ? row - 1 : row + 1;
                 var colEaten = col > endCol ? col - 1 : col + 1;
                 Clients.Group(game.Id).eatPiece(row, col, rowEaten, colEaten, endRow, endCol, piece);
+                game.NeedToChangePlayer(endRow, endCol);
             }
             else
             {
                 var piece = game.MovePiece(row, col, endRow, endCol);
                 Clients.Group(game.Id).movePiece(row, col, endRow, endCol, piece);
             }
+
+
 
             Clients.Group(game.Id).updateTurn(game);
             //game.MovePiece(row, col);
