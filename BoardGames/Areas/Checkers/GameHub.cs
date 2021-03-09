@@ -143,27 +143,16 @@ namespace BoardGames.Areas.Checkers
 
 
 
-            Clients.Group(game.Id).updateTurn(game);
-            //game.MovePiece(row, col);
-            //Clients.Group(game.Id).piecePlaced(row, col, playerMakingTurn.Piece);
+            if (!game.IsOver(opponent))
+            {
+                Clients.Group(game.Id).updateTurn(game);
+            }
+            else
+            {
+                Clients.Group(game.Id).winner(playerMakingTurn);
 
-            //if (!game.IsOver)
-            //{
-            //    Clients.Group(game.Id).updateTurn(game);
-            //}
-            //else
-            //{
-            //    if (game.IsTie)
-            //    {
-            //        Clients.Group(game.Id).tieGame();
-            //    }
-            //    else
-            //    {
-            //        Clients.Group(game.Id).winner(playerMakingTurn.Name);
-            //    }
-
-            //    GameState.Instance.RemoveGame(game.Id);
-            //}
+                GameState.Instance.RemoveGame(game.Id);
+            }
         }
 
         /// <summary>

@@ -271,5 +271,31 @@ namespace BoardGames.Areas.Checkers.Models
 
             return true;
         }
+
+        public bool IsOver(Player opponent)
+        {
+            if(opponent.Pieces.Count == 0)
+            {
+                return true;
+            }
+
+            var canMove = false;
+            foreach(var piece in opponent.Pieces)
+            {
+                var moves = ShowValidMovesForPiece(piece.Row(), piece.Col());
+                if(moves.GetLength(0) != 0)
+                {
+                    canMove = true;
+                    break;
+                }
+            }
+
+            if (!canMove)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }

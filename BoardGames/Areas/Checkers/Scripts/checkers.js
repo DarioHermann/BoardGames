@@ -1,4 +1,5 @@
 ﻿$(function () {
+    disableGameEnderButtons();
     disableInput();
     $("#username").removeAttr("disabled");
 
@@ -35,6 +36,7 @@
     gameHub.client.start = function (game) {
         buildBoard(game.Board);
         var opponent = getOpponent(game);
+        enableGameEnderButtons();
         displayTurn(game.WhoseTurn, opponent);
     };
 
@@ -128,11 +130,20 @@
         $("#findGame").attr("disabled", "disabled");
     };
 
+    function enableGameEnderButtons() {
+        $("#gameEnderButtons").children().removeAttr("disabled");
+    };
+
+    function disableGameEnderButtons() {
+        $("#gameEnderButtons").children().attr("disabled", "disabled");
+    };
+
     // Game over business logic should disable board button handlers and allow player to join a new game
     function endGame() {
         // Removes click handlers from board positions
         $("td[id^=pos-]").off("click");
         enableInput();
+        disableGameEnderButtons();
     };
 
     // Display whose turn it is
