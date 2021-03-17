@@ -149,10 +149,47 @@ namespace BoardGames.Areas.Checkers
             }
             else
             {
-                Clients.Group(game.Id).winner(playerMakingTurn);
+                Clients.Group(game.Id).winner(playerMakingTurn.Name);
 
                 GameState.Instance.RemoveGame(game.Id);
             }
+        }
+
+        public void AskForDraw()
+        {
+            Player playerAskingDraw = GameState.Instance.GetPlayer(Context.ConnectionId);
+            Player opponent;
+            Game game = GameState.Instance.GetGame(playerAskingDraw, out opponent);
+
+            Clients.Client(opponent.Id).askForDraw(playerAskingDraw.Name);
+
+            //Clients.Caller.askForDraw(playerAskingDraw.Name);
+        }
+
+        public void Forfeit()
+        {
+            Player playerForfeiting = GameState.Instance.GetPlayer(Context.ConnectionId);
+            Player winner;
+            Game game = GameState.Instance.GetGame(playerForfeiting, out winner);
+
+            Clients.Group(game.Id).forfeitedGame(playerForfeiting.Name, winner.Name);
+
+            GameState.Instance.RemoveGame(game.Id);
+        }
+
+        public void DrawResponse(bool response)
+        {
+            Player player = GameState.Instance.GetPlayer(Context.ConnectionId);
+            Player opponent;
+            Game game = GameState.Instance.GetGame(player, out opponent);
+
+            Clients.Group(game.Id).drawResponse(response);
+
+            if (response)
+            {
+                GameState.Instance.RemoveGame(game.Id);
+            }
+
         }
 
         /// <summary>
