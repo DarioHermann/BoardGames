@@ -162,9 +162,12 @@ namespace BoardGames.Areas.Checkers.Models
 
                 string otherPiece = Board.Pieces[row + move[0], col + move[1]].ToLower();
 
-                if (otherPiece.IsEmpty() && !forcedToEat)
+                if (otherPiece.IsEmpty())
                 {
-                    validMoves.Add(new []{row+move[0], col+move[1]});
+                    if (!forcedToEat)
+                    {
+                        validMoves.Add(new[] { row + move[0], col + move[1] });
+                    }
                 }
                 else if (otherPiece.Equals(piece.ToLower()))
                 {
