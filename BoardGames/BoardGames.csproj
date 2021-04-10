@@ -166,7 +166,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Checkers\Content\BlackPiece.png" />
+    <Content Include="Areas\Checkers\Content\BlackPieceKing.png" />
     <Content Include="Areas\Checkers\Content\checkers.css" />
+    <Content Include="Areas\Checkers\Content\WhitePiece.png" />
+    <Content Include="Areas\Checkers\Content\WhitePieceKing.png" />
     <Content Include="Areas\Checkers\Scripts\checkers.js" />
     <Content Include="Areas\TicTacToe\Content\tictactoe.css" />
     <Content Include="Areas\TicTacToe\Scripts\ticTacToeScript.js" />
@@ -333,7 +337,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\TicTacToe\Models\" />
     <Folder Include="Content\Images\Ludo\" />
     <Folder Include="Models\" />
   </ItemGroup>
