@@ -162,9 +162,12 @@ namespace BoardGames.Areas.Checkers.Models
 
                 string otherPiece = Board.Pieces[row + move[0], col + move[1]].ToLower();
 
-                if (otherPiece.IsEmpty() && !forcedToEat)
+                if (otherPiece.IsEmpty())
                 {
-                    validMoves.Add(new []{row+move[0], col+move[1]});
+                    if (!forcedToEat)
+                    {
+                        validMoves.Add(new[] { row + move[0], col + move[1] });
+                    }
                 }
                 else if (otherPiece.Equals(piece.ToLower()))
                 {
@@ -270,6 +273,32 @@ namespace BoardGames.Areas.Checkers.Models
             }
 
             return true;
+        }
+
+        public bool IsOver(Player opponent)
+        {
+            if(opponent.Pieces.Count == 0)
+            {
+                return true;
+            }
+
+            var canMove = false;
+            foreach(var piece in opponent.Pieces)
+            {
+                var moves = ShowValidMovesForPiece(piece.Row(), piece.Col());
+                if(moves.GetLength(0) != 0)
+                {
+                    canMove = true;
+                    break;
+                }
+            }
+
+            if (!canMove)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

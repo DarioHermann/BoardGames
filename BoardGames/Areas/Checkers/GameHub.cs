@@ -143,27 +143,53 @@ namespace BoardGames.Areas.Checkers
 
 
 
-            Clients.Group(game.Id).updateTurn(game);
-            //game.MovePiece(row, col);
-            //Clients.Group(game.Id).piecePlaced(row, col, playerMakingTurn.Piece);
+            if (!game.IsOver(opponent))
+            {
+                Clients.Group(game.Id).updateTurn(game);
+            }
+            else
+            {
+                Clients.Group(game.Id).winner(playerMakingTurn.Name);
 
-            //if (!game.IsOver)
-            //{
-            //    Clients.Group(game.Id).updateTurn(game);
-            //}
-            //else
-            //{
-            //    if (game.IsTie)
-            //    {
-            //        Clients.Group(game.Id).tieGame();
-            //    }
-            //    else
-            //    {
-            //        Clients.Group(game.Id).winner(playerMakingTurn.Name);
-            //    }
+                GameState.Instance.RemoveGame(game.Id);
+            }
+        }
 
-            //    GameState.Instance.RemoveGame(game.Id);
-            //}
+        public void AskForDraw()
+        {
+            Player playerAskingDraw = GameState.Instance.GetPlayer(Context.ConnectionId);
+            Player opponent;
+            Game game = GameState.Instance.GetGame(playerAskingDraw, out opponent);
+
+            Clients.Client(opponent.Id).askForDraw(playerAskingDraw.Name);
+
+            //Clients.Caller.askForDraw(playerAskingDraw.Name);
+        }
+
+        public void Forfeit()
+        {
+            Player playerForfeiting = GameState.Instance.GetPlayer(Context.ConnectionId);
+            Player winner;
+            Game game = GameState.Instance.GetGame(playerForfeiting, out winner);
+
+            Clients.Group(game.Id).forfeitedGame(playerForfeiting.Name, winner.Name);
+
+            GameState.Instance.RemoveGame(game.Id);
+        }
+
+        public void DrawResponse(bool response)
+        {
+            Player player = GameState.Instance.GetPlayer(Context.ConnectionId);
+            Player opponent;
+            Game game = GameState.Instance.GetGame(player, out opponent);
+
+            Clients.Group(game.Id).drawResponse(response);
+
+            if (response)
+            {
+                GameState.Instance.RemoveGame(game.Id);
+            }
+
         }
 
         /// <summary>

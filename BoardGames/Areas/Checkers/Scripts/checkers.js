@@ -1,4 +1,5 @@
 ﻿$(function () {
+    disableGameEnderButtons();
     disableInput();
     $("#username").removeAttr("disabled");
 
@@ -35,6 +36,7 @@
     gameHub.client.start = function (game) {
         buildBoard(game.Board);
         var opponent = getOpponent(game);
+        enableGameEnderButtons();
         displayTurn(game.WhoseTurn, opponent);
     };
 
@@ -99,6 +101,34 @@
         endGame();
     };
 
+    gameHub.client.askForDraw = function (playerName) {
+
+        var confirms = confirm(playerName + " is asking for a draw.\nDo you accept?");
+
+        if (confirms) {
+            gameHub.server.drawResponse(true);
+        }
+        else {
+            gameHub.server.drawResponse(false);
+        }
+    }
+
+    gameHub.client.drawResponse = function (response) {
+        if (response) {
+            $("#status").html("Game has ended in a draw!");
+            endGame();
+        }
+        else {
+            $("#status").html($("#status").html() + "</br>Draw was not accepted.");
+        }
+    }
+
+
+    gameHub.client.forfeitedGame = function (playerName, winner) {
+        $("#status").html(playerName + " has forfeited</br>Winner is " + winner);
+        endGame();
+    };
+
 
     // CLIENT BEHAVIOURS
     // Call server to find a game if button is clicked
@@ -116,6 +146,14 @@
         return true;
     });
 
+    $("#drawBtn").click(function () {
+        gameHub.server.askForDraw();
+    });
+
+    $("#forfeitBtn").click(function () {
+        gameHub.server.forfeit();
+    });
+
 
     function enableInput() {
         $("#username").removeAttr("disabled");
@@ -128,11 +166,20 @@
         $("#findGame").attr("disabled", "disabled");
     };
 
+    function enableGameEnderButtons() {
+        $("#gameEnderButtons").children().removeAttr("disabled");
+    };
+
+    function disableGameEnderButtons() {
+        $("#gameEnderButtons").children().attr("disabled", "disabled");
+    };
+
     // Game over business logic should disable board button handlers and allow player to join a new game
     function endGame() {
         // Removes click handlers from board positions
         $("td[id^=pos-]").off("click");
         enableInput();
+        disableGameEnderButtons();
     };
 
     // Display whose turn it is
