@@ -199,6 +199,12 @@
         var template = Handlebars.compile($("#board-template").html());
         $("#board").html(template(board));
 
+        for (var row = 0; i < 8; i++) {
+            for (var col = 0; col < 8; col++) {
+                changeLettersToImage(row, col);
+            }
+        }
+
         $("td[id^=pos-]").click(function (e) {
             e.preventDefault();
             var id = this.id; // "pos-0-0"
@@ -207,6 +213,23 @@
             var col = parts[2];
             gameHub.server.selectPiece(row, col);
         });
+    };
+
+    function changeLettersToImage(row, col) {
+        var val = $("#pos-" + row + "-" + col).html().toString();
+        switch (val) {
+            case 'w':
+                $("#pos-" + row + "-" + col).src = "/WhitePiece.png"; //Dont know how to exactly do this
+                break;
+            case 'W':
+                break;
+            case 'b':
+                break;
+            case 'B':
+                break;
+            default:
+                break;
+        }
     };
 
     // Retrieves the opponent player from the game
